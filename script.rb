@@ -11,7 +11,9 @@ regexp =/(?<=[\]][ ])(.+?)(?=\[)/mo
 reader.pages.each do |page|
 # #   #puts page.fonts
 # #
-  str=page.text.scan(regexp)
+  page.text.scan(regexp) do |m|
+    str<<m
+  end
  # str << s
 # #
 # #
@@ -19,6 +21,7 @@ reader.pages.each do |page|
 break
 end
 str.each do |el|
-  puts el.class
+  puts el[0].class.to_s
+  puts el.to_s
 end
-puts str.inspect
+#puts str.inspect
