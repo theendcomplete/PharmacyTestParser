@@ -18,4 +18,7 @@ reader.pages.each do |page|
 # #   #  break puts page.raw_content
 break
 end
+str.each do |el|
+  puts el.class
+end
 puts str.inspect
