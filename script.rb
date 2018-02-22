@@ -12,13 +12,14 @@ reader.pages.each do |page|
 # #   #puts page.fonts
 # #
   page.text.scan(regexp) do |m|
-    str<<m
+#    str<<m[0].gsub!(/[\n]+/, "\n")
+    str<<m[0].tr("\n","")
   end
  # str << s
 # #
 # #
 # #   #  break puts page.raw_content
-break
+#break
 end
 str.each do |el|
   puts el[0].class.to_s
