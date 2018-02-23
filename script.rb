@@ -1,28 +1,31 @@
 require 'pdf-reader'
-# require 'pdf/reader/html' pdf = 
-# PDF::Reader.new('pharm.pdf') puts pdf.to_html
+
 reader = PDF::Reader.new("pharm.pdf")
-#match = string.match((/>(.*)</)[1]) 
-#page.text.scan(/\d[.].*/)[0]
-#  one, two, three = match.captures
-str = Array.new
-# regexp =/(?<=\])(.*\n?)(?=\[)/
-regexp =/(?<=[\]][ ])(.+?)(?=\[)/mo 
+
+question_blocks_array = Array.new
+questions_array = Array.new
+answers_array = Array.new
+
+regexp_question_block = /(?<=[\]][ ])(.+?)(?=\d{1,5})/mo
+regexp_question = /((.+?)(?=[А][)]))/mo
+regexp_answer = /((?=[А][)])(.+?)(?=[Г][)]))/mo
+
 reader.pages.each do |page|
-# #   #puts page.fonts
-# #
-  page.text.scan(regexp) do |m|
-#    str<<m[0].gsub!(/[\n]+/, "\n")
-    str<<m[0].tr("\n","")
+  page.text.scan(regexp_question_block) do |m|
+    question_blocks_array << m[0].tr("\n", '')
   end
- # str << s
-# #
-# #
-# #   #  break puts page.raw_content
-#break
+  break
 end
-str.each do |el|
-  puts el[0].class.to_s
-  puts el.to_s
+question_blocks_array.each do |el|
+  el.scan(regexp_question) do |m|
+    questions_array << m[0].strip
+  end
+  el.scan(regexp_answer) do |m|
+    puts m.class.to_s
+    puts m[0].class.to_s
+    puts m[0]
+    answers_array << m[0].strip
+  end
+  puts el
 end
-#puts str.inspect
+puts question_blocks_array.inspect
