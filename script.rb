@@ -8,7 +8,7 @@ answers_array = Array.new
 
 regexp_question_block = /(?<=[\]][ ])(.+?)(?=\d{1,5})/mo
 regexp_question = /((.+?)(?=[А][)]))/mo
-regexp_answer = /((?=[А][)])(.+?)(?=[Г][)]))/mo
+regexp_answer = /(?=\))(.+?)(?=(\b[)]|\z))/mo
 
 reader.pages.each do |page|
   page.text.scan(regexp_question_block) do |m|
@@ -22,10 +22,13 @@ question_blocks_array.each do |el|
   end
   el.scan(regexp_answer) do |m|
     puts m.class.to_s
-    puts m[0].class.to_s
-    puts m[0]
-    answers_array << m[0].strip
+      m.each do |q|
+        puts q.class.to_s
+        puts q
+        answers_array << q.strip
+      end
+ #   answers_array << m[0].strip
   end
-  puts el
+  puts answers_array.inspect
 end
-puts question_blocks_array.inspect
+#puts question_blocks_array.inspect
